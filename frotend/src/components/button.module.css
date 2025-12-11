@@ -1,0 +1,12 @@
+.btn{
+    margin: 5px;
+    color: aliceblue;
+    font-weight: 700;
+    background-color: rgb(66, 66, 255);
+    border-radius: 24px;
+    border: none;
+    padding: 5px 15px;
+    min-height: 40px;
+    min-width: 100px;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
