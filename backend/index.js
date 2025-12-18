@@ -2,12 +2,14 @@ require("dotenv").config()
 const express = require("express");
 
 const productRouter = require("./src/router/product.router")
+const authRouter=require("./src/router/auth.router")
 const dbConn = require("./src/config/dbConn")
 
 
 const server = express();
 server.use(express.json())
-server.use(productRouter)
+server.use("/api/v1/product",productRouter)
+server.use("/api/v1/user",authRouter);
 
 
 dbConn().then(()=>{
