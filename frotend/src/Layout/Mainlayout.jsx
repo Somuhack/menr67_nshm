@@ -1,11 +1,13 @@
 import React from "react";
+import Navbar from "../components/Navbar";
+import Footer from "../components/Footer";
 
 const Mainlayout = ({ children }) => {
   return (
     <>
-      <header>navbar</header>
-      <main>{children}</main>
-      <footer>Footer</footer>
+      <Navbar/>
+      <main className="h-screen">{children}</main>
+      <Footer/>
     </>
   );
 };

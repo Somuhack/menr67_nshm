@@ -1,5 +1,6 @@
 const User = require("../model/user");
-
+const bcryptjs = require("bcryptjs")
+const jwt = require("jsonwebtoken")
 // auth flow chart  reg -> login -> profile or other auth pages
 const Register = async (req, res) => {
   try {
@@ -15,7 +16,8 @@ const Register = async (req, res) => {
         .status(300)
         .json({ msg: "User Arleady Exist", scucess: false });
     }
-    const newUser = new User({ username: name, email, password });
+    const hashPassword = bcryptjs.hashSync(password,10)
+    const newUser = new User({ username: name, email, password:hashPassword });
     const isuserSave = await newUser.save();
     if (!isuserSave) {
       return res
@@ -49,10 +51,12 @@ const Login =async(req,res)=>{
         .status(404)
         .json({ msg: "Invalid Credential", scucess: false });
     }
-    if(isEmailExist.password==password){
+    const isVerify = bcryptjs.compareSync(password,isEmailExist.password)
+    if(isVerify){
+      const token = jwt.sign({userID:isEmailExist.id,email:isEmailExist.email},process.env.JWT_SIGNATURE,{expiresIn:"2h"}) 
            return res
         .status(200)
-        .json({ msg: "Login Successfull", scucess: true,user:isEmailExist })
+        .json({ msg: "Login Successfull", scucess: true,token})
     
     }else{
            return res
@@ -65,4 +69,7 @@ const Login =async(req,res)=>{
         .json({ msg: "Somethings went to worng", scucess: false });
    }
 }
-module.exports = { Register,Login };
+const Profile =(req,res)=>{
+  return res.status(200).json({msg:"Profile Access sucessfully" ,data:req.user})
+}
+module.exports = { Register,Login,Profile };

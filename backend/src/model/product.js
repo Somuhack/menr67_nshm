@@ -8,6 +8,10 @@ const productSchema= new mongoose.Schema({
         type:Number,
         require:true
     },
+    pimage:{
+       type:String,
+       require:true
+    },
     pdes:{
         type:String,
         require:true

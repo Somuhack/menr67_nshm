@@ -1,24 +1,29 @@
 import React, { useState } from "react";
 import "../../assets/css/signup.css";
 import { Link, useNavigate } from "react-router-dom";
+import { RegisterApi } from "../../Api/AllApi";
+
 const SignUp = () => {
     const navigate = useNavigate()
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPasword] = useState("");
-  const handleOnSubmit = (e) => {
+  const handleOnSubmit = async(e) => {
     e.preventDefault();
-    // console.log(name, email, password);
-    if (!name || !email || !password) {
+    try {
+       if (!name || !email || !password) {
       alert("All Data Are not Field");
-    } else {
-      localStorage.setItem("name", name);
-      localStorage.setItem("email", email);
-      localStorage.setItem("pass", password);
-      alert("Data Registration Successfull")
-      navigate("/")
     }
-
+    const res = await RegisterApi({name,email,password})
+     if(res.status===200){
+      alert(res.data.msg)
+          navigate("/")
+     }
+    } catch (error) {
+      console.log(error);
+      
+    }
+    // console.log(name, email, password);
     setName("");
     setEmail("");
     setPasword("");
@@ -54,7 +59,7 @@ const SignUp = () => {
             placeholder="Password"
           />
         </div>
-        <button>Sign up</button>
+        <button type="submit">Sign up</button>
       </form>
       <div className="form-section">
         <p>
